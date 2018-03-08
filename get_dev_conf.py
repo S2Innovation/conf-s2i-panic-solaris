@@ -1,7 +1,15 @@
-import PyTango
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import logging
+import traceback
 import sys
 import pprint
-import json
+
+try:
+    import PyTango
+except Exception as e:
+    logging.error('Missing dependencies', traceback.format_exc())
 
 db = PyTango.Database()
 pp = pprint.PrettyPrinter(indent=4)

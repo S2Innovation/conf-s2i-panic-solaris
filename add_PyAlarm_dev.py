@@ -1,7 +1,16 @@
-import PyTango
-import json
-from dsconfig import dump
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import time
+import logging
+import traceback
+
+try:
+    import PyTango
+    import json
+    from dsconfig import dump
+except Exception as e:
+    logging.error('Missing dependencies', traceback.format_exc())
 
 ######### dump Server PyTango #########
 db = PyTango.Database()
