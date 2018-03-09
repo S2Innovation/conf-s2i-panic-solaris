@@ -1,23 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pandas as pd
-import traceback
-#    import logging
-import panic
-#except Exception as e:
-#    logging.error('Missing dependencies', traceback.format_exc())
-#    print e
+try:
+    import pandas as pd
+    import traceback
+    import logging
+    import panic
+except Exception as e:
+    logging.error('Missing dependencies', traceback.format_exc())
 
 alarms = panic.api() 
 
-df = pd.read_excel('PANIC-Solaris-138.xlsx', sheetname='PANIC-S2I')
-tag = df['tag'].apply(lambda x: str(x).replace(' ', '_').replace('-', '_').replace('\\', '_').replace('/', '_').replace('__', '_').upper().strip())
-#except Exception as e:
-#    logging.error(traceback.format_exc())
-#    print e
+try:
+    df = pd.read_excel('PANIC-Solaris-138.xlsx', sheetname='PANIC-S2I')
+    tag = df['tag'].apply(lambda x: str(x).replace(' ', '_').replace('-', '_').replace('\\', '_').replace('/', '_').replace('__', '_').upper().strip())
+except Exception as e:
+    logging.error(traceback.format_exc())
 
-for i in df.index:
+# count number of updated alarms
+_up = 0
+
+for j, i in df.index:
 
     try:
         _update = df['update'][i].encode('utf-8').strip().lower()
@@ -34,7 +37,8 @@ for i in df.index:
 
         if 'tak' in _update:
             _overwrite=True
-	    print('%s updated'%(_tag))
+            _up += 1
+            print('%s: %s updated'%(_up, _tag))
         else:
             _overwrite=False
 
@@ -44,6 +48,8 @@ for i in df.index:
     except Exception as e: 
         logging.warning(e)
     finally:
-	pass
+        pass
 
-
+print ('#'*80)
+print('Total number of alarms %s, updated: %s'%(j+1, _up))
+print ('#'*80)

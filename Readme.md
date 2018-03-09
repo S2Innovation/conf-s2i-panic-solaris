@@ -23,9 +23,11 @@ python get_dev_conf.py test/folder/tmp
 Requirements
 ------------
 
-- [PANIC](https://github.com/tango-controls/PANIC)
 - [Pandas](https://github.com/pandas-dev/pandas)
 - [DSconfig](https://github.com/MaxIV-KitsControls/lib-maxiv-dsconfig.git)
+- [fandango](https://github.com/tango-controls/fandango)
+- [PyTango](https://github.com/tango-controls/pytango)
+- [PANIC](https://github.com/tango-controls/PANIC)
 
 ```console
 pip install -r requirements.txt
