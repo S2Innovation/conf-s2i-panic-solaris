@@ -10,6 +10,7 @@ try:
     import json
     from dsconfig import dump
     import fandango.tango as ft
+    import fandango as fd
 except Exception as e:
     logging.error('Missing dependencies', traceback.format_exc())
 
@@ -64,8 +65,10 @@ device_properties = {'EvalTimeout': ['1000'],
 def add_new_panic_dev(_server, _klass, _device, _prop_dict):
     ft.add_new_device(_server, _klass, _device)
     ft.put_device_property(_device, _prop_dict)
-    ft.Astor(_device).start_servers()
+    fd.Astor(_device).start_servers()
 
 for l in dev_list.keys():
-    # print('PyAlarm/%s, PyAlarm, %s'%(l, dev_list[l]))
+    print('PyAlarm/%s, PyAlarm, %s'%(l, dev_list[l]))
     add_new_panic_dev("/".join([KLASS, l]), KLASS, dev_list[l], device_properties)
+
+# restart DS after device is added 

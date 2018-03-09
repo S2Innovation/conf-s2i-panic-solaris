@@ -28,4 +28,4 @@ pp.pprint(_attr)
 # print property list
 print('%s properties:'%device_name)
 _prop = pyalarm02.get_property_list('*')
-pp.pprint(_prop)
+pp.pprint(pyalarm02.get_property(_prop))

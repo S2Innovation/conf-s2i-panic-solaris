@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-try:
-    import pandas as pd
-    import traceback
-    import logging
-    import panic
-except Exception as e:
-    logging.error('Missing dependencies', traceback.format_exc())
+import pandas as pd
+import traceback
+#    import logging
+import panic
+#except Exception as e:
+#    logging.error('Missing dependencies', traceback.format_exc())
+#    print e
 
 alarms = panic.api() 
 
-try:
-    df = pd.read_excel('PANIC-Solaris-138.xlsx', sheetname='PANIC-S2I')
-    tag = df['tag'].apply(lambda x: str(x).replace(' ', '_').replace('-', '_').replace('\\', '_').replace('/', '_').replace('__', '_').upper().strip())
-except Exception as e:
-    logging.error(traceback.format_exc())
+df = pd.read_excel('PANIC-Solaris-138.xlsx', sheetname='PANIC-S2I')
+tag = df['tag'].apply(lambda x: str(x).replace(' ', '_').replace('-', '_').replace('\\', '_').replace('/', '_').replace('__', '_').upper().strip())
+#except Exception as e:
+#    logging.error(traceback.format_exc())
+#    print e
 
 for i in df.index:
 
@@ -24,7 +24,7 @@ for i in df.index:
         _tag = tag[i]
         _formula = df['formula'][i]
         # _device_tmp = 'alarm/com/alarm02'
-        _device = df['device'][i]
+        _device = df['alarm_device'][i]
         _description = df['description'][i].encode('utf-8').strip()
         _sms = str(df['sms'][i]).replace(' ', '').strip().replace('+', '')
         _rece = df['receivers'][i].encode('utf-8').strip()
