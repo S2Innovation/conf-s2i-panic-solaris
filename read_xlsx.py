@@ -22,13 +22,13 @@ for i in df.index:
     try:
         _update = df['update'][i].encode('utf-8').strip().lower()
         _tag = tag[i]
-        _formula = 'sys/tg_test/1/ampli>'+str(i)
-        _device_tmp = 'alarm/com/alarm02'
+        _formula = df['formula'][i]
+        # _device_tmp = 'alarm/com/alarm02'
         _device = df['device'][i]
         _description = df['description'][i].encode('utf-8').strip()
         _sms = str(df['sms'][i]).replace(' ', '').strip().replace('+', '')
         _rece = df['receivers'][i].encode('utf-8').strip()
-#    _file = 'panic_' + df['system'][i].encode('utf-8').strip() + '_' + df['podsystem'][i].encode('utf-8').strip() + '.log'
+        #    _file = 'panic_' + df['system'][i].encode('utf-8').strip() + '_' + df['podsystem'][i].encode('utf-8').strip() + '.log'
         _receivers = (_rece.split(',')[1].encode('utf-8').strip() if (',' in _rece) else _rece) +  ',SMS:' + _sms # ',file:/common/PANIC/'+_file
         _severity = df['severity'][i].encode('utf-8').strip()
 
@@ -38,8 +38,8 @@ for i in df.index:
         else:
             _overwrite=False
 
-#	alarms.check_tag(_tag ,raise_=True)
-        alarms.add(tag=_tag ,formula=_formula, device=_device_tmp, description=_description, receivers=_receivers, severity=_severity, overwrite=_overwrite)
+    #	alarms.check_tag(_tag ,raise_=True)
+        alarms.add(tag=_tag ,formula=_formula, device=_device, description=_description, receivers=_receivers, severity=_severity, overwrite=_overwrite)
         print('Dev: %s'%(_device))
     except Exception as e: 
         logging.warning(e)

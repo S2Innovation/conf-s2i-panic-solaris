@@ -2,4 +2,5 @@ panic
 pandas
 json
 PyTango
+fandango
 git+https://github.com/MaxIV-KitsControls/lib-maxiv-dsconfig.git
