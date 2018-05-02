@@ -20,6 +20,15 @@ except Exception as e:
 # count number of updated alarms
 _up = 0
 
+ELOG_DEVICE = 'alarm/ctl/elogsnd1/create_entry'
+
+LOGBOOK_MATCH = {
+    '_default':'Storage Ring',
+    'I': 'Injector',
+    'R1': 'Storage Ring',
+    'BL': 'Storage Ring'
+}
+
 for j, i in df.index:
 
     try:
@@ -34,6 +43,23 @@ for j, i in df.index:
         #    _file = 'panic_' + df['system'][i].encode('utf-8').strip() + '_' + df['podsystem'][i].encode('utf-8').strip() + '.log'
         _receivers = (_rece.split(',')[1].encode('utf-8').strip() if (',' in _rece) else _rece) +  ',SMS:' + _sms # ',file:/common/PANIC/'+_file
         _severity = df['severity'][i].encode('utf-8').strip()
+
+        # update receivers with elog integration
+        _elog_subsystem = df['podsystem'][i].encode('utf-8').strip()
+
+        _elog_level = 'Report'
+        if _severity.upper() == 'ALARM':
+            _elog_level = 'Problem'
+
+        _system = df['system'][i].encode('utf-8').strip()
+        _elog_logbook = LOGBOOK_MATCH.get('_system', LOGBOOK_MATCH['_default'])
+
+        _receivers += ',ACTION(alarm:command,' + ELOG_DEVICE + ',$MESSAGE,$NAME,$DESCRIPTION'
+        _receivers += ",str('%s')" % _elog_subsystem
+        _receivers += ",str('%s')" % _elog_level
+        _receivers += ",str('Operation')"
+        _receivers += ",str('%s')" + _elog_logbook
+        _receivers += ")"
 
         if 'tak' in _update:
             _overwrite=True
