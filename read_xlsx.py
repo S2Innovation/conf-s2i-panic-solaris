@@ -62,14 +62,14 @@ for i in df.index:
         if _severity.upper() == 'ALARM':
             _elog_level = 'Problem'
 
-        _system = df['system'][i].encode('utf-8').strip()
-        _elog_logbook = LOGBOOK_MATCH.get('_system', LOGBOOK_MATCH['_default'])
+        _system = df['system'][i].encode('ascii').strip()
+        _elog_logbook = LOGBOOK_MATCH.get(_system, LOGBOOK_MATCH['_default'])
 
-        _receivers += ',ACTION(alarm:command,' + ELOG_DEVICE + ',$MESSAGE,$NAME,$DESCRIPTION'
-        _receivers += ",str('%s')" % _elog_subsystem
-        _receivers += ",str('%s')" % _elog_level
-        _receivers += ",str('Operation')"
-        _receivers += ",str('%s')" % _elog_logbook
+        _receivers += ',ACTION(alarm:command,' + ELOG_DEVICE + ',$REPORT,$NAME,$DESCRIPTION'
+        _receivers += ",'%s'" % _elog_subsystem
+        _receivers += ",'%s'" % _elog_level
+        _receivers += ",'Operation'"
+        _receivers += ",'%s'" % _elog_logbook
         _receivers += ")"
 
         if 'tak' in _update:
