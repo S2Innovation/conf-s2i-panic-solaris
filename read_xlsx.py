@@ -8,23 +8,23 @@ try:
     import panic
     import argparse
 except Exception as e:
-    logging.error('Missing dependencies', traceback.format_exc())
+    print('Missing dependencies', e)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--test", help='Run the script in test mode - create alarms in a test device.', action="store_true")
 args = parser.parse_args()
 
 if args.test:
-    logging.info("Running in test mode")
+    print("Running in test mode")
 
 
 alarms = panic.api() 
 
 try:
-    df = pd.read_excel('PANIC-Solaris-138.xlsx', sheetname='PANIC-S2I')
+    df = pd.read_excel('PANIC-Solaris-156.xlsx', sheetname='PANIC-S2I')
     tag = df['tag'].apply(lambda x: str(x).replace(' ', '_').replace('-', '_').replace('\\', '_').replace('/', '_').replace('__', '_').upper().strip())
 except Exception as e:
-    logging.error(traceback.format_exc())
+    print(e)
 
 # count number of updated alarms
 _up = 0
@@ -86,7 +86,7 @@ for i in df.index:
         alarms.add(tag=_tag ,formula=_formula, device=_device, description=_description, receivers=_receivers, severity=_severity, overwrite=_overwrite)
         print('Dev: %s'%(_device))
     except Exception as e: 
-        logging.warning(e)
+        print(e)
     finally:
         pass
 
