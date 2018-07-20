@@ -1,2 +1,6 @@
-panic
+xlrd
 pandas
+git+https://github.com/tango-controls/pytango.git
+git+https://github.com/tango-controls/fandango.git
+git+https://github.com/tango-controls/PANIC.git
+git+https://github.com/MaxIV-KitsControls/lib-maxiv-dsconfig.git
